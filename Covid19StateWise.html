@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="INDIA COVID-19 TRACKER" icon-name="standard:contact" > <br/>
+        <div style="width: auto;">
+            <template if:true={data}>
+                <lightning-datatable data={data}
+                                     columns={columns}
+                                     key-field="id"
+                                     hide-checkbox-column="true"></lightning-datatable>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
