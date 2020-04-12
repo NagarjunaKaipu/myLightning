@@ -1,0 +1,9 @@
+<aura:component controller="ContactListController">
+    <aura:attribute name="myData" type="Contact[]"/>
+    <aura:attribute name="myColumns" type="List"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:datatable data="{!v.myData}"
+                         columns="{!v.myColumns}"
+                         keyField="id"
+                         />
+</aura:component>
