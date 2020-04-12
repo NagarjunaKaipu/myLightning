@@ -1,0 +1,8 @@
+public class CovidStatusController {
+    @AuraEnabled(cacheable=true)
+    public static List<Corona_Case__c> getAllCovids() {
+        return [Select Id, Name, State__c, State_Code__c, Confirmed__c, Active__c, Recovered__c, Deaths__c, 
+                Today_New_Cases__c, Today_Recovered__c, Today_Deaths__c, Last_Updated_Time__c
+                From Corona_Case__c Order by State_Code__c];
+    }
+ }
