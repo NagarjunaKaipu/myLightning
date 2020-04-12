@@ -1,0 +1,5 @@
+global class ScheduleRefreshCovid implements Schedulable{
+    global void execute(SchedulableContext SC){
+        CovidInfoCallOuts.makeGetCallout();
+    }
+}
