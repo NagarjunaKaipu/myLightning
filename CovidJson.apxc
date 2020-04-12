@@ -1,0 +1,211 @@
+public class CovidJson {
+	public List<Cases_time_series> cases_time_series {get;set;} 
+	public List<Statewise> statewise {get;set;} 
+	public List<Tested> tested {get;set;} 
+
+	public CovidJson(JSONParser parser) {
+		while (parser.nextToken() != System.JSONToken.END_OBJECT) {
+			if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
+				String text = parser.getText();
+				if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
+					if (text == 'cases_time_series') {
+						cases_time_series = arrayOfCases_time_series(parser);
+					} else if (text == 'statewise') {
+						statewise = arrayOfStatewise(parser);
+					} else if (text == 'tested') {
+						tested = arrayOfTested(parser);
+					} else {
+						System.debug(LoggingLevel.WARN, 'JSON2Apex consuming unrecognized property: '+text);
+						consumeObject(parser);
+					}
+				}
+			}
+		}
+	}
+	
+	public class Statewise {
+		public String active {get;set;} 
+		public String confirmed {get;set;} 
+		public String deaths {get;set;} 
+		public String deltaconfirmed {get;set;} 
+		public String deltadeaths {get;set;} 
+		public String deltarecovered {get;set;} 
+		public String lastupdatedtime {get;set;} 
+		public String recovered {get;set;} 
+		public String state {get;set;} 
+		public String statecode {get;set;} 
+
+		public Statewise(JSONParser parser) {
+			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
+				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
+					String text = parser.getText();
+					if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
+						if (text == 'active') {
+							active = parser.getText();
+						} else if (text == 'confirmed') {
+							confirmed = parser.getText();
+						} else if (text == 'deaths') {
+							deaths = parser.getText();
+						} else if (text == 'deltaconfirmed') {
+							deltaconfirmed = parser.getText();
+						} else if (text == 'deltadeaths') {
+							deltadeaths = parser.getText();
+						} else if (text == 'deltarecovered') {
+							deltarecovered = parser.getText();
+						} else if (text == 'lastupdatedtime') {
+							lastupdatedtime = parser.getText();
+						} else if (text == 'recovered') {
+							recovered = parser.getText();
+						} else if (text == 'state') {
+							state = parser.getText();
+						} else if (text == 'statecode') {
+							statecode = parser.getText();
+						} else {
+							System.debug(LoggingLevel.WARN, 'Statewise consuming unrecognized property: '+text);
+							consumeObject(parser);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public class Cases_time_series {
+		public String dailyconfirmed {get;set;} 
+		public String dailydeceased {get;set;} 
+		public String dailyrecovered {get;set;} 
+		public String date_x {get;set;} 
+		public String totalconfirmed {get;set;} 
+		public String totaldeceased {get;set;} 
+		public String totalrecovered {get;set;} 
+
+		public Cases_time_series(JSONParser parser) {
+			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
+				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
+					String text = parser.getText();
+					if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
+						if (text == 'dailyconfirmed') {
+							dailyconfirmed = parser.getText();
+						} else if (text == 'dailydeceased') {
+							dailydeceased = parser.getText();
+						} else if (text == 'dailyrecovered') {
+							dailyrecovered = parser.getText();
+						} else if (text == 'date_x') {
+							date_x = parser.getText();
+						} else if (text == 'totalconfirmed') {
+							totalconfirmed = parser.getText();
+						} else if (text == 'totaldeceased') {
+							totaldeceased = parser.getText();
+						} else if (text == 'totalrecovered') {
+							totalrecovered = parser.getText();
+						} else {
+							System.debug(LoggingLevel.WARN, 'Cases_time_series consuming unrecognized property: '+text);
+							consumeObject(parser);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public class Tested {
+		public String x_cyevm {get;set;} // in json: _cyevm
+		public String positivecasesfromsamplesreported {get;set;} 
+		public String samplereportedtoday {get;set;} 
+		public String source {get;set;} 
+		public String testsconductedbyprivatelabs {get;set;} 
+		public String totalindividualstested {get;set;} 
+		public String totalpositivecases {get;set;} 
+		public String totalsamplestested {get;set;} 
+		public String updatetimestamp {get;set;} 
+
+		public Tested(JSONParser parser) {
+			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
+				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
+					String text = parser.getText();
+					if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
+						if (text == '_cyevm') {
+							x_cyevm = parser.getText();
+						} else if (text == 'positivecasesfromsamplesreported') {
+							positivecasesfromsamplesreported = parser.getText();
+						} else if (text == 'samplereportedtoday') {
+							samplereportedtoday = parser.getText();
+						} else if (text == 'source') {
+							source = parser.getText();
+						} else if (text == 'testsconductedbyprivatelabs') {
+							testsconductedbyprivatelabs = parser.getText();
+						} else if (text == 'totalindividualstested') {
+							totalindividualstested = parser.getText();
+						} else if (text == 'totalpositivecases') {
+							totalpositivecases = parser.getText();
+						} else if (text == 'totalsamplestested') {
+							totalsamplestested = parser.getText();
+						} else if (text == 'updatetimestamp') {
+							updatetimestamp = parser.getText();
+						} else {
+							System.debug(LoggingLevel.WARN, 'Tested consuming unrecognized property: '+text);
+							consumeObject(parser);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	public static CovidJson parse(String json) {
+		System.JSONParser parser = System.JSON.createParser(json);
+		return new CovidJson(parser);
+	}
+	
+	public static void consumeObject(System.JSONParser parser) {
+		Integer depth = 0;
+		do {
+			System.JSONToken curr = parser.getCurrentToken();
+			if (curr == System.JSONToken.START_OBJECT || 
+				curr == System.JSONToken.START_ARRAY) {
+				depth++;
+			} else if (curr == System.JSONToken.END_OBJECT ||
+				curr == System.JSONToken.END_ARRAY) {
+				depth--;
+			}
+		} while (depth > 0 && parser.nextToken() != null);
+	}
+	
+
+
+    private static List<Statewise> arrayOfStatewise(System.JSONParser p) {
+        List<Statewise> res = new List<Statewise>();
+        if (p.getCurrentToken() == null) p.nextToken();
+        while (p.nextToken() != System.JSONToken.END_ARRAY) {
+            res.add(new Statewise(p));
+        }
+        return res;
+    }
+
+
+
+    private static List<Tested> arrayOfTested(System.JSONParser p) {
+        List<Tested> res = new List<Tested>();
+        if (p.getCurrentToken() == null) p.nextToken();
+        while (p.nextToken() != System.JSONToken.END_ARRAY) {
+            res.add(new Tested(p));
+        }
+        return res;
+    }
+
+
+
+
+
+    private static List<Cases_time_series> arrayOfCases_time_series(System.JSONParser p) {
+        List<Cases_time_series> res = new List<Cases_time_series>();
+        if (p.getCurrentToken() == null) p.nextToken();
+        while (p.nextToken() != System.JSONToken.END_ARRAY) {
+            res.add(new Cases_time_series(p));
+        }
+        return res;
+    }
+
+
+}
