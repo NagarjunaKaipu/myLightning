@@ -1,0 +1,106 @@
+<apex:page controller="CovidStatusController" tabStyle="Account" lightningStyleSheets="true">
+    <!--<apex:pageBlock title="Covid Status In India">
+<apex:pageBlockTable value="{!CovidList}" var="c">
+<apex:column value="{! c.State__c }"/>
+<apex:column value="{! c.State_Code__c }"/>
+<apex:column value="{! c.Confirmed__c }"/>
+<apex:column value="{! c.Active__c }"/>
+<apex:column value="{! c.Recovered__c }"/>
+<apex:column value="{! c.Deaths__c }"/>
+<apex:column value="{! c.Today_New_Cases__c }"/>
+<apex:column value="{! c.Today_Recovered__c }"/>
+<apex:column value="{! c.Today_Deaths__c }"/>
+</apex:pageBlockTable>
+</apex:pageBlock>-->
+    <!--added for pagination-->
+    <head>
+        <apex:includescript value="//code.jquery.com/jquery-1.11.1.min.js" / >
+            <apex:includescript value="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" />
+            <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
+            <style>
+                .CornflowerBlue {
+                background-color: CornflowerBlue !important;
+                }
+                .pink {
+                background-color: pink !important;
+                }
+                .red {
+                background-color: tomato !important;
+                }
+                .orange {
+                background-color: orange !important;
+                }
+            </style>
+            <script>
+            j$ = jQuery.noConflict();
+            j$(document).ready( function () {
+                var covidtable = j$('[id$="covidtable"]').DataTable({
+                    "pageLength": 50,
+                    "createdRow": function( row, data, dataIndex ) {
+                        if ( data[1] == "AP" ) { 
+                            j$(row).addClass('CornflowerBlue');
+                        }
+                        else if ( data[1] == "TS" ) { 
+                            j$(row).addClass('pink');
+                        }else if ( data[1] == "MH" ) { 
+                            j$(row).addClass('orange');
+                        }else if ( data[1] == "" ) { 
+                            j$(row).addClass('red');
+                        }
+                    }
+                });
+                //covidtable.column( 0 ).search( 'All' ).draw();
+            });
+            </script>
+        </head>
+        <!---End of Pagination--->
+<apex:slds />
+<div class="slds-scope">        
+        <apex:form id="myForm">
+            
+            <apex:sectionHeader title="Corona Status Tracker in India"/>
+            <marquee direction="left" style="font-size: 30px;font-weight: 800;color: #8ebf42;font-family: sans-serif;" BGCOLOR="Green">Lockdown Extended till 3rd May 2020! Stay Home and Stay Safe...</marquee><br/>
+            <apex:pageBlock >
+                <apex:pageBlockSection title="Total Cases: {!totalCount}" collapsible="false" columns="1"/>
+                <body>                
+                    <table id="covidtable" class="display">       
+                        <thead>
+                            <tr>
+                                <th style="width:25%;">State Name</th>
+                                <th style="width:30%;">State Code</th> 
+                                <th style="width:25%;">Confirmed</th>
+                                <th style="width:30%;">Active</th> 
+                                <th style="width:25%;">Recovered</th>
+                                <th style="width:30%;">Deaths</th> 
+                                <th style="width:25%;">Today Confirmed</th>
+                                <th style="width:30%;">Today Recovered</th> 
+                                <th style="width:25%;">Today Deaths</th>
+                                <th style="width:30%;">Updated Date</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!CovidList}" var="cc">
+                                <tr >
+                                    <td>{!cc.State__c}</td>
+                                    <td>{!cc.State_Code__c}</td>
+                                    <td class="selected">{!cc.Confirmed__c}</td>
+                                    <td>{!cc.Active__c}</td>
+                                    <td>{!cc.Recovered__c}</td>
+                                    <td>{!cc.Deaths__c}</td>
+                                    <td>{!cc.Today_New_Cases__c}</td>
+                                    <td>{!cc.Today_Recovered__c}</td>
+                                    <td>{!cc.Today_Deaths__c}</td>
+                                    <td>                  
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!cc.Last_Updated_Time__c}" />
+                                        </apex:outputText>
+                                    </td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </body>
+            </apex:pageBlock>  
+        </apex:form>
+    </div>
+    </apex:page>
