@@ -1,0 +1,37 @@
+<aura:component controller="ContactListController">
+    <aura:attribute name="allRecords" type="Contact[]"/>
+    <aura:attribute name="myColumns" type="List"/>
+    
+    <aura:attribute name="paginationList" type="List"/>
+    <aura:attribute type="Integer"      name="pageSize"		default="10" />
+    <aura:attribute type="Integer"      name="pageNumber"		default="1" />
+    <aura:attribute type="Integer"      name="maxPage"			default="1" />
+    <aura:handler name="change"			value="{!v.pageNumber}"	action="{!c.renderPage}" /> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:card title="Contact List" iconName="standard:contact">
+        <br/>
+        
+        <div class="slds-m-left_medium">
+            <ui:inputSelect aura:id="pageSize" label="Display Records Per Page: " change="{!c.onSelectChange}">
+                <ui:inputSelectOption text="5" label="5"/>
+                <ui:inputSelectOption text="10" label="10" value="true"/>
+                <ui:inputSelectOption text="15" label="15"/>
+                <ui:inputSelectOption text="20" label="20"/>
+            </ui:inputSelect>
+            <br/>
+        </div>
+        <div class="slds-m-left_medium">
+            <lightning:datatable data="{!v.paginationList}"
+                                 columns="{!v.myColumns}"
+                                 keyField="id"
+                                 />
+            <br/>
+        </div>
+        <div class="slds-m-left_medium">
+            <c:pagination currentPageNumber="{!v.pageNumber}" 
+                          maxPageNumber="{!v.maxPage}" />
+        </div>
+    </lightning:card>
+</aura:component>
